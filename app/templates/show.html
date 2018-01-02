@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_pagination.html" as macros %}
+
+{% block title %}Loglist{% endblock %}
+
+{% block page_content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>UserIP</th>
+      <th>UserName</th>
+      <th>Action</th>
+      <th>EventTime</th>
+      <th>BrasIP</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for userlog in userlogs %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ userlog['Framed-IP-Address'] }}</td>
+        <td>{{ userlog['User-Name'] }}</td>
+        <td>{{ userlog['Acct-Status-Type'] }}</td>
+        <td>{{ userlog['Event-Timestamp'] }}</td>
+        <td>{{ userlog['NAS-IP-Address'] }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+<form id="pageform" method="post" action="/log">
+    <input type=hidden id=pageid name=page value="">
+    <input type=hidden name=ipaddress value={{ ipaddress }}>
+    <input type=hidden name=blimit value={{ blimit }}>
+    <input type=hidden name=tlimit value={{ tlimit }}>
+</form>
+</table>
+{% if pagination %}
+<div class="pagination">
+    <ul class="pagination">
+    <li{% if not pagination.has_prev %} class="disabled"{% endif %}>
+        <a onclick="{% if pagination.has_prev %}getlink('pageform',{{ pagination.prev_num }}){% else %}{% endif %}">
+            &laquo;
+        </a>
+    </li>
+    {% for p in pagination.iter_pages() %}
+        {% if p %}
+            {% if p == pagination.page %}
+            <li class="active">
+                <a onclick="getlink('pageform',{{ p }})">{{ p }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a style="cursor:pointer" onclick="getlink('pageform',{{ p }})">{{ p }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+        <li class="disabled"><a onclick="">&hellip;</a></li>
+        {% endif %}
+    {% endfor %}
+    <li{% if not pagination.has_next %} class="disabled"{% endif %}>
+        <a onclick="{% if pagination.has_next %}getlink('pageform',{{ pagination.next_num }}){% else %}{% endif %}">
+            &raquo;
+        </a>
+    </li>
+</ul>
+</div>
+{% endif %}
+<script type="text/javascript">
+    function getlink(formname,pageno) {
+        $("#pageid").attr("value",pageno);
+        $("#"+formname).submit();
+    }
+</script>
+{% endblock %}

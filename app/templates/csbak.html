@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Radiuslog{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Begin your search</h1>
+</div>
+<div class="col-md-4">
+    <form method="POST" action="">
+    {{ form.csrf_token }}
+    {{ form.name.label }} {{ form.name(size=20) }}
+    <input type="submit" value="Go">
+    {% if form.name.errors %}
+    <ul class="warning">
+        {% for error in form.name.errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_fielderror.html" as fielderror %}
+
+{% block title %}Radiuslog{% endblock %}
+{% block head %}
+{{ super() }}
+<link href="{{ url_for('static', filename='bootstrap-datetimepicker.css') }}" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Begin your search</h1>
+</div>
+{# <script type="text/javascript" src="/static/js/datepicker.js"></script> #}
+{# <script type="text/javascript" src="/static/js/bootstrap.min.js"></script> #}
+{# <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js" charset="UTF-8"></script> #}
+{# <script type="text/javascript" src="/static/js/jquery-1.8.3.min.js" charset="UTF-8"></script> #}
+<form method="POST" action="">
+    {{ form.csrf_token }}
+    <div class="row">
+        <div class='col-sm-4'>
+            <div class="form-group">
+                <label>{{ form.ipaddress.label }}</label>
+                    <div>{{ form.ipaddress(class="form-control") }}</div>
+                {{ fielderror.field_errors(form.ipaddress) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-4'>
+            <div class="form-group">
+                <label>{{ form.blimit.label }}</label>
+                <div class='input-group date form_datetime'>
+                    <div>{{ form.blimit(type="text",class="form-control") }}</div>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                </div>
+                {{ fielderror.field_errors(form.blimit) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-4'>
+            <div class="form-group">
+                <label>{{ form.tlimit.label }}</label>
+                <div class='input-group date form_datetime'>
+                    <div>{{ form.tlimit(type="text",class="form-control") }}</div>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                </div>
+                {{ fielderror.field_errors(form.tlimit) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-sm-1'>
+            <div class="form-group">
+                <label>{{ form.submit.label }}</label>
+                    <div>{{ form.submit(class="form-control") }}</div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Loglist{% endblock %}
+
+{% block page_content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th>UserIP</th>
+      <th>UserName</th>
+      <th>Action</th>
+      <th>EventTime</th>
+      <th>BrasIP</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for userlog in userlogs %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ userlog['Framed-IP-Address'] }}</td>
+        <td>{{ userlog['User-Name'] }}</td>
+        <td>{{ userlog['Acct-Status-Type'] }}</td>
+        <td>{{ userlog['Event-Timestamp'] }}</td>
+        <td>{{ userlog['NAS-IP-Address'] }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+<script type="text/javascript" src="/static/js/paginate.js"></script>
+<form id="previousform" method="post">
+    <input type=hidden name=skip value={{ previous }}>
+    <input type=hidden name=ipaddress value={{ ipaddress }}>
+    <input type=hidden name=blimit value={{ blimit }}>
+    <input type=hidden name=tlimit value={{ tlimit }}>
+</form>
+<form id="nextform" method="post">
+    <input type=hidden name=skip value={{ next }}>
+    <input type=hidden name=ipaddress value={{ ipaddress }}>
+    <input type=hidden name=blimit value={{ blimit }}>
+    <input type=hidden name=tlimit value={{ tlimit }}>
+</form>
+</table>
+    <ul class="pager">
+        <li class="previous"><a onclick="previous()">&larr; Previous</a></li>
+        <li class="next"><a onclick="next()">Next &rarr;</a></li>
+    </ul>
+{% endblock %}
