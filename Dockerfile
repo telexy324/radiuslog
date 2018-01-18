@@ -1,17 +1,8 @@
 # Pull base image  
-FROM centos:7.4.1708 
+FROM 192.168.30.46:5000/xuyang/centos7.4
   
 MAINTAINER yang xu "gis324@sina.com"  
-  
-# Install Environment
-RUN yum -y install epel-release
-RUN yum -y install openssh-clients wget vixie-cron ntpdate
-RUN yum -y install git python-pip
-RUN pip install --upgrade pip
-
-# Install Gunicorn
-RUN pip install gunicorn
-  
+ 
 # Add code from local
 RUN mkdir -p /opt/radiuslog
 COPY app /opt/radiuslog/app
