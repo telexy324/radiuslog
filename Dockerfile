@@ -12,8 +12,11 @@ RUN pip install --upgrade pip
 # Install Gunicorn
 RUN pip install gunicorn
   
-# Pull code from github
-RUN cd /opt && git clone https://github.com/telexy324/radiuslog.git
+# Add code from local
+RUN mkdir -p /opt/radiuslog
+COPY app /opt/radiuslog/app
+COPY tests /opt/radiuslog/tests
+COPY config.py manage.py requirements.txt /opt/radiuslog/
 
 # Install Requirement
 RUN pip install -r /opt/radiuslog/requirements.txt
